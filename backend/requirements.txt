@@ -1,0 +1,9 @@
+# StripUnetMCSA Backend Dependencies
+# Install PyTorch first from pytorch.org for your system
+fastapi
+uvicorn[standard]
+python-multipart
+Pillow
+numpy
+opencv-python
+scipy
