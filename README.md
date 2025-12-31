@@ -237,14 +237,6 @@ taskkill /PID <process_id> /F
 
 See [RUN_COMMANDS.md](RUN_COMMANDS.md) for more troubleshooting tips.
 
----
-
-## 🤝 Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
----
-
 ## 📄 License
 
 This project is open source and available under the [MIT License](LICENSE).
