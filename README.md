@@ -145,20 +145,6 @@ stripunet_app/
 | **Inference Speed (CPU)** | ~15 seconds (1024×1024) |
 | **Inference Speed (GPU)** | ~2 seconds (1024×1024) |
 
----
-
-## 🖼️ Screenshots
-
-### Application Interface
-![Application UI](docs/screenshots/app_interface.png)
-
-### Segmentation Results
-![Results](docs/screenshots/segmentation_results.png)
-
-> *Screenshots coming soon*
-
----
-
 ## 🛠️ Advanced Configuration
 
 ### Custom Backend Port
