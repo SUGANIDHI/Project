@@ -24,25 +24,25 @@
 
 ### Decoder: 5-Stage Dual-Branch Architecture
 Each decoder stage uses a **DualBranchDecoderBlock** with:
-- **Dilated Branch:** 3×3 convolution for multi-scale context
-- **Standard Branch:** 3×3 convolution for local features
-- **Fusion Layer:** 1×1 convolution to combine both branches
+- **Dilated Branch:** 33 convolution for multi-scale context
+- **Standard Branch:** 33 convolution for local features
+- **Fusion Layer:** 11 convolution to combine both branches
 
 **Channel Progression (decoder):**
-- dec4: 2048 → 512 (256+256 from branches)
-- dec3: 1536 → 256 (128+128 from branches)
-- dec2: 768 → 128 (64+64 from branches)
-- dec1: 384 → 64 (32+32 from branches)
-- dec0: 128 → 32 (16+16 from branches)
-- final: 32 → 1 (binary segmentation)
+- dec4: 2048  512 (256+256 from branches)
+- dec3: 1536  256 (128+128 from branches)
+- dec2: 768  128 (64+64 from branches)
+- dec1: 384  64 (32+32 from branches)
+- dec0: 128  32 (16+16 from branches)
+- final: 32  1 (binary segmentation)
 
 ### MCSA Modules (Multi-Context Spatial Attention)
 Applied after stages 1-4 in decoder:
 - **Multi-scale Context:** Four parallel paths with different receptive fields
-  - 1×1 convolution
-  - 3×3 convolution
-  - 3×3 dilated convolution (dilation=2)
-  - 3×3 dilated convolution (dilation=3)
+  - 11 convolution
+  - 33 convolution
+  - 33 dilated convolution (dilation=2)
+  - 33 dilated convolution (dilation=3)
 - **Spatial Attention:** Learns to focus on road-relevant features
 - **Output:** Attention-weighted feature maps
 
@@ -61,9 +61,9 @@ Applied after stages 1-4 in decoder:
 
 | Aspect | Details |
 |--------|---------|
-| **Input Size** | 3×H×W (RGB images) |
-| **Output Size** | 1×H×W (binary mask) |
-| **Inference** | Tile-based processing (512×512 tiles) |
+| **Input Size** | 3HW (RGB images) |
+| **Output Size** | 1HW (binary mask) |
+| **Inference** | Tile-based processing (512512 tiles) |
 | **Normalization** | ImageNet mean/std |
 | **Activation** | ReLU (encoder/decoder), Sigmoid (output) |
 | **Device Support** | CPU / CUDA |
@@ -83,8 +83,8 @@ Applied after stages 1-4 in decoder:
 ## Inference Pipeline
 
 1. **Preprocessing:** RGB conversion, ImageNet normalization
-2. **Tiling:** Split large images into 512×512 tiles
-3. **Forward Pass:** Each tile through encoder → decoder → MCSA
+2. **Tiling:** Split large images into 512512 tiles
+3. **Forward Pass:** Each tile through encoder  decoder  MCSA
 4. **Postprocessing:** Stitch tiles, apply sigmoid, binarize at 0.5 threshold
 5. **Output:** Binary road mask (0=background, 1=road)
 
@@ -93,8 +93,8 @@ Applied after stages 1-4 in decoder:
 ## Performance Characteristics
 
 - **Accuracy:** F1=77.8% on benchmark dataset
-- **Speed (CPU):** ~15 seconds for 1024×1024 image
-- **Speed (GPU - estimated):** <2 seconds for 1024×1024 image
+- **Speed (CPU):** ~15 seconds for 10241024 image
+- **Speed (GPU - estimated):** <2 seconds for 10241024 image
 - **Memory:** ~1.5GB RAM during inference
 
 ---
@@ -102,26 +102,26 @@ Applied after stages 1-4 in decoder:
 ## Architecture Diagram
 
 ```
-Input (3×H×W)
-    ↓
+Input (3HW)
+    
 [ResNet50 Encoder]
-    ├─ e1: 64 channels
-    ├─ e2: 256 channels
-    ├─ e3: 512 channels
-    ├─ e4: 1024 channels
-    └─ e5: 2048 channels (bottleneck)
+     e1: 64 channels
+     e2: 256 channels
+     e3: 512 channels
+     e4: 1024 channels
+     e5: 2048 channels (bottleneck)
     
 [Dual-Branch Decoder]
-    ├─ dec4: 2048→512 + MCSA → ↑
-    ├─ dec3: 512+1024→256 + MCSA → ↑
-    ├─ dec2: 256+512→128 + MCSA → ↑
-    ├─ dec1: 128+256→64 + MCSA → ↑
-    └─ dec0: 64+64→32 → ↑
+     dec4: 2048512 + MCSA  
+     dec3: 512+1024256 + MCSA  
+     dec2: 256+512128 + MCSA  
+     dec1: 128+25664 + MCSA  
+     dec0: 64+6432  
     
 [Final Layer]
-    32 → 1 (sigmoid)
-    ↓
-Output (1×H×W) Binary Mask
+    32  1 (sigmoid)
+    
+Output (1HW) Binary Mask
 ```
 
 ---
@@ -136,7 +136,7 @@ import torch
 model = load_model()
 model.eval()
 
-# Prepare input (3×H×W normalized)
+# Prepare input (3HW normalized)
 input_tensor = preprocess_image(image)
 
 # Inference

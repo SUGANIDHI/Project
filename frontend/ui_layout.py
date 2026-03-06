@@ -7,19 +7,57 @@ import streamlit as st
 def setup_page_config():
     """Configure Streamlit page settings"""
     st.set_page_config(
-        page_title="StripUnetMCSA Road Segmentation",
-        page_icon="🛣️",
+        page_title="StripUnetMCSA Road Extraction",
+        page_icon="",
         layout="wide",
         initial_sidebar_state="expanded"
     )
 
 
 def apply_custom_css():
-    """Apply custom CSS styling"""
+    """Apply custom CSS styling - Force light/white theme"""
     st.markdown("""
         <style>
+        /* Force white background throughout */
+        .stApp, [data-testid="stAppViewContainer"], [data-testid="stHeader"], 
+        [data-testid="stToolbar"], [data-testid="stDecoration"], 
+        [data-testid="stStatusWidget"], .main, .block-container {
+            background-color: #ffffff !important;
+            color: #1f1f1f !important;
+        }
+        
+        /* Sidebar styling */
+        [data-testid="stSidebar"], [data-testid="stSidebarContent"] {
+            background-color: #f8f9fa !important;
+            color: #1f1f1f !important;
+        }
+        
+        /* Text and headings */
+        h1, h2, h3, h4, h5, h6, p, span, label, .stMarkdown {
+            color: #1f1f1f !important;
+        }
+        
+        /* Input fields and text areas */
+        .stTextInput input, .stTextArea textarea, .stSelectbox select {
+            background-color: #ffffff !important;
+            color: #1f1f1f !important;
+            border-color: #d1d5db !important;
+        }
+        
+        /* Metrics and expanders */
+        [data-testid="stMetricValue"], [data-testid="stMetricLabel"],
+        .streamlit-expanderHeader {
+            color: #1f1f1f !important;
+        }
+        
+        [data-testid="stExpander"] {
+            background-color: #f8f9fa !important;
+            border-color: #e0e0e0 !important;
+        }
+        
         .main {
             padding: 2rem;
+            background-color: #ffffff !important;
         }
         .stButton>button {
             width: 100%;
@@ -36,10 +74,11 @@ def apply_custom_css():
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
         }
         .upload-section {
-            background-color: #f0f2f6;
+            background-color: #ffffff;
             padding: 2rem;
             border-radius: 1rem;
             margin: 1rem 0;
+            border: 1px solid #e0e0e0;
         }
         .result-section {
             background-color: #ffffff;
@@ -66,16 +105,67 @@ def apply_custom_css():
             border-left: 4px solid #2196f3;
             margin: 1rem 0;
         }
+        
+        /* File uploader styling - Force white dropzone */
+        [data-testid="stFileUploader"], 
+        [data-testid="stFileUploadDropzone"],
+        [data-testid="stFileUploadDropzone"] > div,
+        section[role="presentation"],
+        [data-testid="stFileUploader"] section,
+        .st-emotion-cache-1erivf3,
+        .st-emotion-cache-1gulkj5 {
+            background-color: #ffffff !important;
+            border-color: #4CAF50 !important;
+        }
+        
+        [data-testid="stFileUploadDropzone"] section,
+        section[role="presentation"] {
+            background-color: #ffffff !important;
+            border: 2px dashed #4CAF50 !important;
+            border-radius: 0.5rem !important;
+        }
+        
+        /* Drag and drop text and icons */
+        [data-testid="stFileUploadDropzone"] span,
+        [data-testid="stFileUploadDropzone"] small,
+        [data-testid="stFileUploadDropzone"] p,
+        section[role="presentation"] span,
+        section[role="presentation"] small {
+            color: #1f1f1f !important;
+        }
+        
+        /* Upload icon/svg */
+        [data-testid="stFileUploadDropzone"] svg,
+        section[role="presentation"] svg {
+            fill: #1f1f1f !important;
+            color: #1f1f1f !important;
+            stroke: #1f1f1f !important;
+        }
+        
+        /* Browse files button - green style */
+        [data-testid="stFileUploadDropzone"] button,
+        section[role="presentation"] button,
+        .st-emotion-cache-13lcgu3 {
+            background-color: #4CAF50 !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 0.25rem !important;
+        }
+        
+        [data-testid="stFileUploadDropzone"] button:hover,
+        section[role="presentation"] button:hover {
+            background-color: #45a049 !important;
+        }
         </style>
     """, unsafe_allow_html=True)
 
 
 def render_header():
     """Render app header"""
-    st.markdown("# 🛣️ StripUnetMCSA Road Segmentation")
+    st.markdown("#  StripUnetMCSA Road Extraction")
     st.markdown("""
         <div class="info-box">
-        <b>Advanced Road Segmentation using StripUnetMCSA</b><br>
+        <b>Advanced Road Extraction using StripUnetMCSA</b><br>
         Upload a satellite or aerial image to detect and segment roads using our state-of-the-art deep learning model.
         </div>
     """, unsafe_allow_html=True)
@@ -84,7 +174,7 @@ def render_header():
 def render_sidebar():
     """Render sidebar with settings"""
     with st.sidebar:
-        st.header("⚙️ Settings")
+        st.header(" Settings")
         
         # Backend settings
         st.subheader("Backend Configuration")
@@ -110,17 +200,6 @@ def render_sidebar():
         st.subheader("Analysis Options")
         show_stats = st.checkbox("Show Statistics", value=True)
         
-        # About
-        st.subheader("About")
-        st.markdown("""
-        **StripUnetMCSA** is a deep learning model for road segmentation featuring:
-        - Multi-Context Spatial Attention (MCSA)
-        - Dual-Branch Decoder
-        - Efficient tiling strategy
-        
-        **Model Performance:** F1 = 0.778
-        """)
-        
         return {
             'backend_url': backend_url,
             'show_overlay': show_overlay,
@@ -131,8 +210,7 @@ def render_sidebar():
 
 def render_upload_section():
     """Render image upload section"""
-    st.markdown('<div class="upload-section">', unsafe_allow_html=True)
-    st.subheader("📤 Upload Image")
+    st.subheader(" Upload Image")
     
     uploaded_file = st.file_uploader(
         "Choose an image...",
@@ -140,15 +218,13 @@ def render_upload_section():
         help="Upload a satellite or aerial image for road segmentation"
     )
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     return uploaded_file
 
 
 def render_results_section():
     """Create placeholder for results"""
     st.markdown('<div class="result-section">', unsafe_allow_html=True)
-    st.subheader("📊 Results")
+    st.subheader(" Results")
     
     col1, col2, col3 = st.columns(3)
     
@@ -171,35 +247,33 @@ def render_results_section():
 
 def render_action_buttons():
     """Render action buttons"""
-    col1, col2, col3 = st.columns([2, 1, 1])
-    
-    with col1:
-        predict_button = st.button("🚀 Run Segmentation", type="primary")
+    # Center the Run Segmentation button
+    col1, col2, col3 = st.columns([1, 2, 1])
     
     with col2:
-        download_mask = st.empty()
+        predict_button = st.button(" Run Segmentation", type="primary", use_container_width=True)
     
-    with col3:
-        download_overlay = st.empty()
+    download_mask = st.empty()
+    download_overlay = st.empty()
     
     return predict_button, download_mask, download_overlay
 
 
 def show_error(message):
     """Display error message"""
-    st.error(f"❌ {message}")
+    st.error(f" {message}")
 
 
 def show_success(message):
     """Display success message"""
-    st.success(f"✅ {message}")
+    st.success(f"{message}")
 
 
 def show_info(message):
     """Display info message"""
-    st.info(f"ℹ️ {message}")
+    st.info(f" {message}")
 
 
 def show_warning(message):
     """Display warning message"""
-    st.warning(f"⚠️ {message}")
+    st.warning(f" {message}")

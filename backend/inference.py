@@ -46,7 +46,7 @@ def predict_tiles_batch(model, tiles_list, batch_size=4):
     Returns:
         list of prediction tensors
     """
-    predictions = []
+    predictions = 
     
     # Process in batches
     for i in range(0, len(tiles_list), batch_size):

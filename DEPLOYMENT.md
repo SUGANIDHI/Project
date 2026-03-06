@@ -1,6 +1,6 @@
 # StripUnetMCSA Deployment Guide for Render
 
-## 🚀 Deploying to Render
+##  Deploying to Render
 
 This guide will help you deploy the StripUnetMCSA application to Render.com with both backend and frontend services.
 
@@ -8,9 +8,9 @@ This guide will help you deploy the StripUnetMCSA application to Render.com with
 
 ## Prerequisites
 
-1. ✅ GitHub repository: https://github.com/SUGANIDHI/Project
-2. ✅ Render account: https://render.com
-3. ⚠️ Model weights file (`best_f1_0.778.pt` - 161MB)
+1.  GitHub repository: https://github.com/SUGANIDHI/Project
+2.  Render account: https://render.com
+3.  Model weights file (`best_f1_0.778.pt` - 161MB)
 
 ---
 
@@ -31,15 +31,15 @@ After deployment, use Render Shell to upload the model file directly.
 ### Step 1: Prepare Repository
 
 The repository already has these deployment files:
-- ✅ `render.yaml` - Main deployment configuration
-- ✅ `backend/build.sh` - Backend build script
-- ✅ `backend/start.sh` - Backend start script
-- ✅ `frontend/start.sh` - Frontend start script
+-  `render.yaml` - Main deployment configuration
+-  `backend/build.sh` - Backend build script
+-  `backend/start.sh` - Backend start script
+-  `frontend/start.sh` - Frontend start script
 
 ### Step 2: Create Backend Service
 
 1. Go to Render Dashboard: https://dashboard.render.com
-2. Click **"New +"** → **"Web Service"**
+2. Click **"New +"**  **"Web Service"**
 3. Connect your GitHub repository: `SUGANIDHI/Project`
 4. Configure the backend:
    - **Name**: `stripunet-backend`
@@ -74,7 +74,7 @@ The repository already has these deployment files:
 
 ### Step 4: Create Frontend Service
 
-1. Click **"New +"** → **"Web Service"**
+1. Click **"New +"**  **"Web Service"**
 2. Connect the same repository
 3. Configure the frontend:
    - **Name**: `stripunet-frontend`
@@ -111,7 +111,7 @@ backend_url = os.getenv('BACKEND_URL', 'http://localhost:8000')
 ## Alternative: Using render.yaml (Blueprint)
 
 1. Go to Render Dashboard
-2. Click **"New +"** → **"Blueprint"**
+2. Click **"New +"**  **"Blueprint"**
 3. Select your repository
 4. Render will automatically detect `render.yaml` and create both services
 
@@ -137,7 +137,7 @@ https://stripunet-backend.onrender.com
 
 ## Free Tier Limitations
 
-⚠️ **Render Free Tier Constraints:**
+ **Render Free Tier Constraints:**
 - Goes to sleep after 15 minutes of inactivity
 - 512 MB RAM limit
 - First request after sleep takes ~1 minute to wake up
@@ -216,10 +216,10 @@ streamlit run app.py \
 ## Recommended: Use Paid Tier
 
 For production use, consider Render's **Starter Plan** ($7/month):
-- ✅ 512 MB RAM → 2 GB RAM
-- ✅ Always on (no sleep)
-- ✅ Faster cold starts
-- ✅ Better performance
+-  512 MB RAM  2 GB RAM
+-  Always on (no sleep)
+-  Faster cold starts
+-  Better performance
 
 ---
 
@@ -256,12 +256,12 @@ For production use, consider Render's **Starter Plan** ($7/month):
 
 ## Next Steps After Deployment
 
-1. ✅ Test with various images
-2. ✅ Monitor performance and errors
-3. ✅ Set up custom domain (optional)
-4. ✅ Enable HTTPS (automatic on Render)
-5. ✅ Configure health checks
-6. ✅ Set up alerts for downtime
+1.  Test with various images
+2.  Monitor performance and errors
+3.  Set up custom domain (optional)
+4.  Enable HTTPS (automatic on Render)
+5.  Configure health checks
+6.  Set up alerts for downtime
 
 ---
 
@@ -278,4 +278,4 @@ For production use, consider Render's **Starter Plan** ($7/month):
 - Frontend: `https://stripunet-frontend.onrender.com`
 - API Docs: `https://stripunet-backend.onrender.com/docs`
 
-Good luck with your deployment! 🚀
+Good luck with your deployment! 

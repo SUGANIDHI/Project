@@ -21,6 +21,7 @@ class BackendClient:
         self.backend_url = backend_url
         self.predict_endpoint = f"{backend_url}/predict"
         self.health_endpoint = f"{backend_url}/health"
+        self.extract_graph_endpoint = f"{backend_url}/extract-graph"
     
     def check_health(self):
         """
@@ -71,6 +72,43 @@ class BackendClient:
         
         except Exception as e:
             print(f"Error during prediction: {e}")
+            import traceback
+            traceback.print_exc()
+            return None
+    
+    def extract_graph(self, image):
+        """
+        Send image to backend for road network graph extraction
+        
+        Args:
+            image: PIL Image or numpy array
+        
+        Returns:
+            dict: response with skeleton_overlay, statistics, geojson or None if failed
+        """
+        try:
+            # Convert to PIL Image if numpy array
+            if isinstance(image, np.ndarray):
+                image = Image.fromarray(image)
+            
+            # Convert image to bytes
+            img_byte_arr = io.BytesIO()
+            image.save(img_byte_arr, format='PNG')
+            img_byte_arr.seek(0)
+            
+            # Send request
+            files = {'file': ('image.png', img_byte_arr, 'image/png')}
+            response = requests.post(self.extract_graph_endpoint, files=files, timeout=120)
+            
+            if response.status_code == 200:
+                return response.json()
+            else:
+                print(f"Graph extraction failed: {response.status_code}")
+                print(response.text)
+                return None
+        
+        except Exception as e:
+            print(f"Error during graph extraction: {e}")
             import traceback
             traceback.print_exc()
             return None

@@ -1,5 +1,5 @@
 """
-StripUnetMCSA Road Segmentation - Streamlit Frontend
+StripUnetMCSA Road Extraction - Streamlit Frontend
 Main application entry point
 """
 import streamlit as st
@@ -39,7 +39,7 @@ def main():
     # Check backend health
     health = client.check_health()
     if health is None:
-        show_warning(f"⚠️ Cannot connect to backend at {settings['backend_url']}. Please start the backend server.")
+        show_warning(f" Cannot connect to backend at {settings['backend_url']}. Please start the backend server.")
         st.markdown("""
         **To start the backend:**
         ```bash
@@ -50,9 +50,9 @@ def main():
         st.stop()
     else:
         if health.get('model_loaded'):
-            show_success(f"✅ Connected to backend - Model loaded")
+            show_success(f" Connected to backend - Model loaded")
         else:
-            show_warning("⚠️ Backend connected but model not loaded")
+            show_warning(" Backend connected but model not loaded")
     
     # Upload section
     uploaded_file = render_upload_section()
@@ -68,7 +68,7 @@ def main():
         image = Image.open(uploaded_file)
         st.session_state.original_image = image
         
-        st.markdown("### 👁️ Preview")
+        st.markdown("###  Preview")
         preview = prepare_image_display(image, max_width=600)
         st.image(preview, caption=f"Uploaded: {uploaded_file.name}", use_container_width=True)
         
@@ -77,7 +77,7 @@ def main():
         
         # Run prediction
         if predict_button:
-            with st.spinner("🔄 Running segmentation... This may take a moment."):
+            with st.spinner(" Running segmentation... This may take a moment."):
                 # Send to backend
                 mask, overlay, info = client.predict_and_decode(image)
                 
@@ -96,7 +96,7 @@ def main():
         # Display results if available
         if st.session_state.results is not None:
             st.markdown("---")
-            st.markdown("## 📊 Segmentation Results")
+            st.markdown("##  Extraction Results")
             
             results = st.session_state.results
             mask = results['mask']
@@ -107,24 +107,24 @@ def main():
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                st.markdown("**🖼️ Original Image**")
+                st.markdown("** Original Image**")
                 original_display = prepare_image_display(st.session_state.original_image)
                 st.image(original_display, use_container_width=True)
             
             with col2:
-                st.markdown("**🎯 Segmentation Mask**")
+                st.markdown("** Segmentation Mask**")
                 mask_display = prepare_image_display(mask)
                 st.image(mask_display, use_container_width=True)
             
             with col3:
-                st.markdown("**🎨 Overlay**")
+                st.markdown("** Overlay**")
                 overlay_display = prepare_image_display(overlay)
                 st.image(overlay_display, use_container_width=True)
             
             # Statistics
             if settings['show_stats']:
                 st.markdown("---")
-                st.markdown("### 📈 Analysis")
+                st.markdown("###  Analysis")
                 
                 stats = display_statistics(mask)
                 
@@ -143,19 +143,19 @@ def main():
                     st.metric("Road Coverage", f"{stats['road_percentage']:.2f}%")
             
             # Processing info
-            with st.expander("ℹ️ Processing Information"):
+            with st.expander(" Processing Information"):
                 st.json(info)
             
             # Download buttons
             st.markdown("---")
-            st.markdown("### 💾 Download Results")
+            st.markdown("###  Download Results")
             
             col1, col2 = st.columns(2)
             
             with col1:
                 mask_bytes = get_download_link_data(mask)
                 st.download_button(
-                    label="⬇️ Download Mask",
+                    label=" Download Mask",
                     data=mask_bytes,
                     file_name="segmentation_mask.png",
                     mime="image/png"
@@ -164,7 +164,7 @@ def main():
             with col2:
                 overlay_bytes = get_download_link_data(overlay)
                 st.download_button(
-                    label="⬇️ Download Overlay",
+                    label=" Download Overlay",
                     data=overlay_bytes,
                     file_name="segmentation_overlay.png",
                     mime="image/png"
@@ -172,13 +172,13 @@ def main():
     
     else:
         # No image uploaded yet
-        st.info("👆 Please upload an image to get started")
+        st.info(" Please upload an image to get started")
     
     # Footer
     st.markdown("---")
     st.markdown("""
         <div style="text-align: center; color: #666; padding: 1rem;">
-        <small>StripUnetMCSA Road Segmentation System | Powered by Deep Learning | F1 Score: 0.778</small>
+        <small>StripUnetMCSA Road Extraction System | Powered by Deep Learning | F1 Score: 0.778</small>
         </div>
     """, unsafe_allow_html=True)
 

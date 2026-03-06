@@ -24,8 +24,8 @@ def create_tiles(image_tensor, tile_size=TILE_SIZE):
     """
     c, h, w = image_tensor.shape
     
-    tiles = []
-    positions = []
+    tiles = 
+    positions = 
     
     # Calculate stride to create 5 tiles with overlap
     # This is a simplified version - adjust based on actual StripUnet paper

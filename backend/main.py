@@ -2,6 +2,11 @@
 FastAPI Backend Server for StripUnetMCSA
 """
 import os
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
 import io
 import base64
 from datetime import datetime
@@ -10,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from PIL import Image
 import numpy as np
+from email_utils import send_email
 
 from config import API_HOST, API_PORT, MASKS_DIR, OVERLAYS_DIR
 from preprocessing import preprocess_image
@@ -17,6 +23,7 @@ from tiling import create_tiles, get_tiling_info
 from inference import run_inference
 from postprocessing import postprocess_prediction, create_overlay
 from model_loader import load_model
+from graph_extraction import extract_road_network, create_skeleton_overlay
 
 
 # Initialize FastAPI app
@@ -69,6 +76,98 @@ async def health():
         "model_loaded": _model is not None,
         "timestamp": datetime.now().isoformat()
     }
+
+
+@app.post("/extract-graph")
+async def extract_graph(file: UploadFile = File(...)):
+    """
+    Extract road network graph from uploaded image
+    
+    Args:
+        file: Uploaded image file
+    
+    Returns:
+        JSON with graph data, statistics, and GeoJSON
+    """
+    try:
+        # Validate file type
+        if not file.content_type.startswith("image/"):
+            raise HTTPException(status_code=400, detail="File must be an image")
+        
+        # Read image
+        image_bytes = await file.read()
+        image = Image.open(io.BytesIO(image_bytes))
+        original_image = np.array(image.convert('RGB'))
+        
+        print(f"Processing image for graph extraction: {file.filename}, size: {image.size}")
+        
+        # Preprocess
+        image_tensor, original_size = preprocess_image(image)
+        
+        # Create tiles
+        tiles, tile_positions = create_tiles(image_tensor)
+        
+        # Run inference
+        predictions = run_inference(image_tensor, tiles, tile_positions)
+        
+        # Postprocess
+        from tiling import reconstruct_from_tiles
+        stitched = reconstruct_from_tiles(
+            predictions, 
+            tile_positions, 
+            (image_tensor.shape[1], image_tensor.shape[2])
+        )
+        
+        # Get final mask
+        final_mask = postprocess_prediction(
+            stitched, 
+            (original_image.shape[0], original_image.shape[1]),
+            remove_noise=True,
+            min_object_size=100
+        )
+        
+        # Extract road network graph
+        print("Extracting road network graph...")
+        network_data = extract_road_network(final_mask)
+        
+        # Create skeleton overlay visualization
+        skeleton_overlay = create_skeleton_overlay(
+            original_image, 
+            network_data['skeleton'],
+            network_data['nodes']
+        )
+        
+        # Encode skeleton overlay as base64
+        skeleton_image = Image.fromarray(skeleton_overlay)
+        skeleton_buffer = io.BytesIO()
+        skeleton_image.save(skeleton_buffer, format="PNG")
+        skeleton_base64 = base64.b64encode(skeleton_buffer.getvalue()).decode()
+        
+        # Also encode the mask
+        mask_image = Image.fromarray(final_mask)
+        mask_buffer = io.BytesIO()
+        mask_image.save(mask_buffer, format="PNG")
+        mask_base64 = base64.b64encode(mask_buffer.getvalue()).decode()
+        
+        print(f"Graph extraction complete: {network_data['statistics']}")
+        
+        return JSONResponse({
+            "success": True,
+            "mask": mask_base64,
+            "skeleton_overlay": skeleton_base64,
+            "statistics": network_data['statistics'],
+            "geojson": network_data['geojson'],
+            "info": {
+                "filename": file.filename,
+                "original_size": original_size
+            }
+        })
+    
+    except Exception as e:
+        print(f"Error during graph extraction: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @app.post("/predict")
@@ -149,6 +248,14 @@ async def predict(file: UploadFile = File(...)):
         mask_image.save(mask_path)
         overlay_image.save(overlay_path)
         
+        # Send email notification with attachments
+        try:
+            subject = "New Road Detected"
+            body = f"New road detected in image {file.filename}.\n\nAttached:\n- Mask: {mask_path}\n- Overlay: {overlay_path}"
+            send_email("suganidhib@gmail.com", subject, body, attachments=[mask_path, overlay_path])
+        except Exception as e:
+            print(f"Failed to send email notification: {e}")
+
         return JSONResponse({
             "success": True,
             "mask": mask_base64,

@@ -100,23 +100,23 @@ class StripUnetMCSA(nn.Module):
         self.encoder.layer3 = resnet.layer3  # 1024 channels
         self.encoder.layer4 = resnet.layer4  # 2048 channels
         
-        # Decoder Stage 4: 2048 → 512
+        # Decoder Stage 4: 2048  512
         self.dec4 = DualBranchDecoderBlock(2048, 256)
         self.mcsa4 = MCSAModule(512)
         
-        # Decoder Stage 3: 512+1024=1536 → 256
+        # Decoder Stage 3: 512+1024=1536  256
         self.dec3 = DualBranchDecoderBlock(1536, 128)
         self.mcsa3 = MCSAModule(256)
         
-        # Decoder Stage 2: 256+512=768 → 128
+        # Decoder Stage 2: 256+512=768  128
         self.dec2 = DualBranchDecoderBlock(768, 64)
         self.mcsa2 = MCSAModule(128)
         
-        # Decoder Stage 1: 128+256=384 → 64
+        # Decoder Stage 1: 128+256=384  64
         self.dec1 = DualBranchDecoderBlock(384, 32)
         self.mcsa1 = MCSAModule(64)
         
-        # Decoder Stage 0: 64+64=128 → 32
+        # Decoder Stage 0: 64+64=128  32
         self.dec0 = DualBranchDecoderBlock(128, 16)
         
         # Final output
@@ -135,31 +135,31 @@ class StripUnetMCSA(nn.Module):
         e5 = self.encoder.layer4(e4)   # 2048 channels
         
         # Decoder Stage 4
-        d4 = self.dec4(e5)  # 2048 → 512
+        d4 = self.dec4(e5)  # 2048  512
         d4 = self.mcsa4(d4)
         d4_up = F.interpolate(d4, size=e4.shape[2:], mode='bilinear', align_corners=False)
         
         # Decoder Stage 3
         d3_in = torch.cat([d4_up, e4], dim=1)  # 512 + 1024 = 1536
-        d3 = self.dec3(d3_in)  # 1536 → 256
+        d3 = self.dec3(d3_in)  # 1536  256
         d3 = self.mcsa3(d3)
         d3_up = F.interpolate(d3, size=e3.shape[2:], mode='bilinear', align_corners=False)
         
         # Decoder Stage 2
         d2_in = torch.cat([d3_up, e3], dim=1)  # 256 + 512 = 768
-        d2 = self.dec2(d2_in)  # 768 → 128
+        d2 = self.dec2(d2_in)  # 768  128
         d2 = self.mcsa2(d2)
         d2_up = F.interpolate(d2, size=e2.shape[2:], mode='bilinear', align_corners=False)
         
         # Decoder Stage 1
         d1_in = torch.cat([d2_up, e2], dim=1)  # 128 + 256 = 384
-        d1 = self.dec1(d1_in)  # 384 → 64
+        d1 = self.dec1(d1_in)  # 384  64
         d1 = self.mcsa1(d1)
         d1_up = F.interpolate(d1, size=e1.shape[2:], mode='bilinear', align_corners=False)
         
         # Decoder Stage 0
         d0_in = torch.cat([d1_up, e1], dim=1)  # 64 + 64 = 128
-        d0 = self.dec0(d0_in)  # 128 → 32
+        d0 = self.dec0(d0_in)  # 128  32
         
         # Final upsampling and output
         d0_up = F.interpolate(d0, scale_factor=4, mode='bilinear', align_corners=False)
@@ -191,21 +191,21 @@ def load_model():
         result = _model.load_state_dict(state_dict, strict=False)
         
         if result.missing_keys:
-            print(f"⚠ Missing keys: {len(result.missing_keys)}")
+            print(f" Missing keys: {len(result.missing_keys)}")
             if len(result.missing_keys) < 20:
                 for key in result.missing_keys:
                     print(f"  - {key}")
         
         if result.unexpected_keys:
-            print(f"⚠ Unexpected keys: {len(result.unexpected_keys)}")
+            print(f" Unexpected keys: {len(result.unexpected_keys)}")
             if len(result.unexpected_keys) < 20:
                 for key in result.unexpected_keys:
                     print(f"  - {key}")
         
         if not result.missing_keys and not result.unexpected_keys:
-            print("✓ Perfect match - all weights loaded!")
+            print(" Perfect match - all weights loaded!")
         else:
-            print("✓ Weights loaded with flexible matching")
+            print(" Weights loaded with flexible matching")
         
         # Move to device and eval
         _model = _model.to(DEVICE)
@@ -213,7 +213,7 @@ def load_model():
         
         # Count parameters
         total_params = sum(p.numel() for p in _model.parameters())
-        print(f"✓ Model loaded successfully!")
+        print(f" Model loaded successfully!")
         print(f"  Total parameters: {total_params / 1e6:.1f}M")
         print(f"  Performance: F1=77.8% (World #1)")
         

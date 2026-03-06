@@ -38,7 +38,7 @@ Loading StripUnetMCSA model...
 Loading StripUnetMCSA (ResNet50 + 5-Stage Decoder)
 Model path: C:\Users\91812\Desktop\stripunet_app\backend\best_f1_0.778.pt
 Device: cpu
-✓ Model loaded successfully!
+ Model loaded successfully!
   Total parameters: 40.4M
   Performance: F1=77.8% (World #1)
 Model loaded successfully!
@@ -138,7 +138,7 @@ curl http://localhost:8000/health
 
 ### 2. Test Frontend
 - Open http://localhost:8501 in browser
-- Should see "✅ Connected to backend - Model loaded"
+- Should see " Connected to backend - Model loaded"
 
 ---
 
@@ -279,12 +279,12 @@ INFO:     127.0.0.1:54815 - "POST /predict HTTP/1.1" 200 OK
 
 ## Ready to Use!
 
-1. Open **Terminal 1** → Run backend
-2. Open **Terminal 2** → Run frontend
-3. Open browser → http://localhost:8501
+1. Open **Terminal 1**  Run backend
+2. Open **Terminal 2**  Run frontend
+3. Open browser  http://localhost:8501
 4. Upload satellite image
-5. Click "🚀 Run Segmentation"
-6. Get results! 🎉
+5. Click " Run Segmentation"
+6. Get results! 
 
 ---
 

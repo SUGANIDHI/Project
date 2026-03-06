@@ -1,6 +1,6 @@
 # StripUnetMCSA Road Segmentation Application
 
-🛣️ **AI-powered road segmentation from satellite/aerial imagery**
+ **AI-powered road segmentation from satellite/aerial imagery**
 
 [![Model Performance](https://img.shields.io/badge/F1--Score-77.8%25-brightgreen)](https://github.com/SUGANIDHI/Project)
 [![Python](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
@@ -9,22 +9,22 @@
 
 ---
 
-## 🌟 Overview
+##  Overview
 
 StripUnetMCSA is a production-ready full-stack web application for automatic road network detection from satellite and aerial imagery. Built with a world-class deep learning model achieving **77.8% F1-score**, this application provides an intuitive interface for researchers, urban planners, and GIS professionals.
 
 ### Key Features
 
-- 🎯 **State-of-the-art Accuracy**: F1-Score of 77.8% (World #1 on benchmark)
-- ⚡ **Fast Processing**: ~15 seconds on CPU, <2 seconds on GPU
-- 🖼️ **Multiple Outputs**: Binary masks, colored overlays, and statistics
-- 📊 **Real-time Visualization**: Interactive results display
-- 💾 **Export Options**: Download masks and overlays as PNG
-- 🌐 **Easy Deployment**: Simple setup with FastAPI + Streamlit
+-  **State-of-the-art Accuracy**: F1-Score of 77.8% (World #1 on benchmark)
+-  **Fast Processing**: ~15 seconds on CPU, <2 seconds on GPU
+-  **Multiple Outputs**: Binary masks, colored overlays, and statistics
+-  **Real-time Visualization**: Interactive results display
+-  **Export Options**: Download masks and overlays as PNG
+-  **Easy Deployment**: Simple setup with FastAPI + Streamlit
 
 ---
 
-## 🏗️ Architecture
+##  Architecture
 
 ### Model: StripUnetMCSA
 - **Encoder**: ResNet50 (pretrained on ImageNet)
@@ -41,7 +41,7 @@ StripUnetMCSA is a production-ready full-stack web application for automatic roa
 
 ---
 
-## 📋 Prerequisites
+##  Prerequisites
 
 - Python 3.10 or higher
 - 2GB+ RAM (4GB recommended)
@@ -49,7 +49,7 @@ StripUnetMCSA is a production-ready full-stack web application for automatic roa
 
 ---
 
-## 🚀 Quick Start
+##  Quick Start
 
 ### 1. Clone the Repository
 
@@ -72,12 +72,12 @@ pip install -r requirements.txt
 
 ### 3. Download Model Weights
 
-> ⚠️ **Important**: The pre-trained model file `best_f1_0.778.pt` (~161 MB) is not included in this repository due to size constraints.
+>  **Important**: The pre-trained model file `best_f1_0.778.pt` (~161 MB) is not included in this repository due to size constraints.
 
 Place the model file in the `backend/` directory:
 ```
 backend/
-  └── best_f1_0.778.pt  <- Place model here
+   best_f1_0.778.pt  <- Place model here
 ```
 
 ### 4. Run the Application
@@ -103,49 +103,67 @@ Open your browser and navigate to:
 
 ---
 
-## 📖 Usage
+##  Usage
 
 1. **Upload Image**: Click "Browse files" or drag-and-drop a satellite image (JPG, PNG, TIF)
-2. **Run Segmentation**: Click the "🚀 Run Segmentation" button
+2. **Run Segmentation**: Click the " Run Segmentation" button
 3. **View Results**: See the original image, binary mask, and colored overlay
 4. **Check Statistics**: View road coverage percentage and pixel counts
 5. **Download**: Save masks and overlays for further analysis
 
 ---
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 stripunet_app/
-├── backend/
-│   ├── main.py                 # FastAPI application
-│   ├── model_loader.py         # Model architecture & loading
-│   ├── config.py               # Configuration settings
-│   ├── best_f1_0.778.pt       # Pre-trained model weights (not in repo)
-│   ├── outputs/                # Generated results
-│   └── requirements.txt        # Backend dependencies
-├── frontend/
-│   ├── app.py                  # Streamlit application
-│   └── requirements.txt        # Frontend dependencies
-├── README.md                   # This file
-├── RUN_COMMANDS.md            # Detailed run instructions
-├── MODEL_SUMMARY.md           # Model architecture details
-├── BACKEND_SUMMARY.md         # Backend documentation
-└── FRONTEND_SUMMARY.md        # Frontend documentation
+ backend/
+    main.py                 # FastAPI application
+    model_loader.py         # Model architecture & loading
+    config.py               # Configuration settings
+    best_f1_0.778.pt       # Pre-trained model weights (not in repo)
+    outputs/                # Generated results
+    requirements.txt        # Backend dependencies
+ frontend/
+    app.py                  # Streamlit application
+    requirements.txt        # Frontend dependencies
+ README.md                   # This file
+ RUN_COMMANDS.md            # Detailed run instructions
+ MODEL_SUMMARY.md           # Model architecture details
+ BACKEND_SUMMARY.md         # Backend documentation
+ FRONTEND_SUMMARY.md        # Frontend documentation
 ```
 
 ---
 
-## 📊 Model Performance
+##  Model Performance
 
 | Metric | Value |
 |--------|-------|
 | **F1-Score** | 77.8% |
 | **Parameters** | 40.4M |
-| **Inference Speed (CPU)** | ~15 seconds (1024×1024) |
-| **Inference Speed (GPU)** | ~2 seconds (1024×1024) |
+| **Inference Speed (CPU)** | ~15 seconds (10241024) |
+| **Inference Speed (GPU)** | ~2 seconds (10241024) |
 
+<<<<<<< HEAD
 ## 🛠️ Advanced Configuration
+=======
+---
+
+##  Screenshots
+
+### Application Interface
+![Application UI](docs/screenshots/app_interface.png)
+
+### Segmentation Results
+![Results](docs/screenshots/segmentation_results.png)
+
+> *Screenshots coming soon*
+
+---
+
+##  Advanced Configuration
+>>>>>>> d59ca73 (chore: remove emojis from filenames and file contents)
 
 ### Custom Backend Port
 Edit `backend/main.py`:
@@ -163,7 +181,7 @@ The application automatically uses GPU if CUDA is available. No configuration ne
 
 ---
 
-## 📚 Documentation
+##  Documentation
 
 - [RUN_COMMANDS.md](RUN_COMMANDS.md) - Complete setup and run instructions
 - [MODEL_SUMMARY.md](MODEL_SUMMARY.md) - Model architecture details
@@ -172,7 +190,7 @@ The application automatically uses GPU if CUDA is available. No configuration ne
 
 ---
 
-## 🔧 API Endpoints
+##  API Endpoints
 
 ### Health Check
 ```bash
@@ -190,17 +208,17 @@ See [BACKEND_SUMMARY.md](BACKEND_SUMMARY.md) for complete API documentation.
 
 ---
 
-## 🧪 Testing
+##  Testing
 
 Automated test reports are available in the project. The application has been tested with:
-- ✅ Various satellite image formats (JPG, PNG, TIF)
-- ✅ Different image sizes (512×512 to 4096×4096)
-- ✅ CPU and GPU inference
-- ✅ Error handling and edge cases
+-  Various satellite image formats (JPG, PNG, TIF)
+-  Different image sizes (512512 to 40964096)
+-  CPU and GPU inference
+-  Error handling and edge cases
 
 ---
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Backend doesn't start
 ```bash
@@ -223,13 +241,25 @@ taskkill /PID <process_id> /F
 
 See [RUN_COMMANDS.md](RUN_COMMANDS.md) for more troubleshooting tips.
 
+<<<<<<< HEAD
 ## 📄 License
+=======
+---
+
+##  Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+---
+
+##  License
+>>>>>>> d59ca73 (chore: remove emojis from filenames and file contents)
 
 This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - ResNet50 encoder pretrained on ImageNet
 - Built with FastAPI and Streamlit
@@ -237,16 +267,16 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ---
 
-## 📧 Contact
+##  Contact
 
 For questions or support, please open an issue on GitHub.
 
 ---
 
-## 🌟 Star this Repository
+##  Star this Repository
 
-If you find this project useful, please consider giving it a star ⭐ on GitHub!
+If you find this project useful, please consider giving it a star  on GitHub!
 
 ---
 
-**Made with ❤️ using PyTorch, FastAPI, and Streamlit**
+**Made with  using PyTorch, FastAPI, and Streamlit**

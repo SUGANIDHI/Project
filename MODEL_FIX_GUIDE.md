@@ -1,4 +1,4 @@
-# 🔧 Model Architecture Fix Guide
+#  Model Architecture Fix Guide
 
 ## Problem
 
@@ -34,8 +34,8 @@ def load_model():
 Share your training code or model definition. I need to know:
 
 1. **Encoder structure**: Which backbone? (ResNet, VGG, custom?)
-2. **Channel progression**: 64→128→256→512→1024?
-3. **Kernel sizes**: 3×3, 5×5, or different?
+2. **Channel progression**: 641282565121024?
+3. **Kernel sizes**: 33, 55, or different?
 4. **Decoder specifics**: How are skip connections handled?
 5. **MCSA module**: Exact implementation
 

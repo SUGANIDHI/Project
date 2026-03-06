@@ -22,14 +22,14 @@
 ### Project Structure
 ```
 backend/
-├── main.py              # FastAPI application entry point
-├── model_loader.py      # Model architecture and loading logic
-├── config.py            # Configuration settings
-├── best_f1_0.778.pt     # Pre-trained model weights (161 MB)
-├── outputs/             # Generated segmentation results
-│   ├── masks/           # Binary road masks
-│   └── overlays/        # Colored overlay visualizations
-└── requirements.txt     # Python dependencies
+ main.py              # FastAPI application entry point
+ model_loader.py      # Model architecture and loading logic
+ config.py            # Configuration settings
+ best_f1_0.778.pt     # Pre-trained model weights (161 MB)
+ outputs/             # Generated segmentation results
+    masks/           # Binary road masks
+    overlays/        # Colored overlay visualizations
+ requirements.txt     # Python dependencies
 ```
 
 ---
@@ -124,14 +124,14 @@ def preprocess_image(image):
 
 ### 3. Tiled Inference
 ```python
-# Split large images into 512×512 tiles
+# Split large images into 512512 tiles
 # Process each tile independently
 # Handle edge cases and overlapping regions
 # Stitch tiles back together
 ```
 
 **Tiling Strategy:**
-- Tile size: 512×512 pixels
+- Tile size: 512512 pixels
 - Overlap: 32 pixels (to reduce edge artifacts)
 - Stride: 480 pixels
 - Padding: Reflect padding for edge tiles
@@ -263,8 +263,8 @@ async def global_exception_handler(request, exc):
 | Metric | Value |
 |--------|-------|
 | **Startup Time** | ~3-5 seconds (model loading) |
-| **Inference Time (CPU)** | ~15 seconds for 1024×1024 |
-| **Inference Time (GPU)** | ~2 seconds for 1024×1024 |
+| **Inference Time (CPU)** | ~15 seconds for 10241024 |
+| **Inference Time (GPU)** | ~2 seconds for 10241024 |
 | **Memory Usage** | ~1.5 GB RAM |
 | **Max Concurrent Requests** | 1 (single model instance) |
 | **Max Image Size** | 50 MB |
@@ -359,10 +359,10 @@ async def startup_event():
 ## Security Considerations
 
 ### Current Implementation (Development)
-- ⚠️ CORS allows all origins
-- ⚠️ No authentication/authorization
-- ⚠️ No rate limiting
-- ⚠️ File uploads not sanitized beyond extension check
+-  CORS allows all origins
+-  No authentication/authorization
+-  No rate limiting
+-  File uploads not sanitized beyond extension check
 
 ### Production Recommendations
 1. Implement API key authentication
@@ -400,7 +400,7 @@ async def startup_event():
 **2. Inference fails with dimension mismatch**
 - Verify model architecture matches checkpoint
 - Check input image preprocessing
-- Ensure tile size is correct (512×512)
+- Ensure tile size is correct (512512)
 
 **3. Out of memory errors**
 - Reduce tile size or batch size

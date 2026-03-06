@@ -38,4 +38,4 @@ Browser will open automatically at http://localhost:8501
 2. Click "Run Segmentation"
 3. Download results
 
-That's it! 🎉
+That's it! 

@@ -21,8 +21,8 @@
 ### Project Structure
 ```
 frontend/
-├── app.py               # Main Streamlit application
-└── requirements.txt     # Python dependencies
+ app.py               # Main Streamlit application
+ requirements.txt     # Python dependencies
 ```
 
 ---
@@ -31,24 +31,24 @@ frontend/
 
 ### Page Structure
 ```
-┌─────────────────────────────────────────────────┐
-│  🛣️ StripUnetMCSA Road Segmentation            │
-│  Detect road networks from satellite imagery    │
-├─────────────────────────────────────────────────┤
-│ Sidebar              │ Main Content             │
-│ ┌─────────────────┐ │ ┌────────────────────┐  │
-│ │ Settings        │ │ │ Upload Area        │  │
-│ │                 │ │ └────────────────────┘  │
-│ │ • Backend URL   │ │ ┌────────────────────┐  │
-│ │ • Overlay       │ │ │ Results            │  │
-│ │ • Transparency  │ │ │ • Original         │  │
-│ │ • Statistics    │ │ │ • Mask             │  │
-│ │                 │ │ │ • Overlay          │  │
-│ │ About           │ │ └────────────────────┘  │
-│ └─────────────────┘ │ ┌────────────────────┐  │
-│                      │ │ Statistics         │  │
-│                      │ └────────────────────┘  │
-└─────────────────────────────────────────────────┘
+
+   StripUnetMCSA Road Segmentation            
+  Detect road networks from satellite imagery    
+
+ Sidebar               Main Content             
+     
+  Settings           Upload Area          
+                      
+   Backend URL       
+   Overlay          Results              
+   Transparency      Original           
+   Statistics        Mask               
+                      Overlay            
+  About               
+     
+                        Statistics           
+                         
+
 ```
 
 ---
@@ -59,11 +59,11 @@ frontend/
 ```python
 st.set_page_config(
     page_title="StripUnetMCSA Road Segmentation",
-    page_icon="🛣️",
+    page_icon="",
     layout="wide"
 )
 
-st.title("🛣️ StripUnetMCSA Road Segmentation")
+st.title(" StripUnetMCSA Road Segmentation")
 st.markdown("Detect road networks from satellite/aerial imagery...")
 ```
 
@@ -112,7 +112,7 @@ show_stats = st.sidebar.checkbox(
 
 #### About Section
 ```python
-with st.sidebar.expander("ℹ️ About"):
+with st.sidebar.expander(" About"):
     st.markdown("""
     **Model:** StripUnetMCSA
     **Performance:** F1=77.8%
@@ -146,7 +146,7 @@ if uploaded_file:
 
 #### Action Button
 ```python
-if st.button("🚀 Run Segmentation", type="primary"):
+if st.button(" Run Segmentation", type="primary"):
     # Trigger segmentation process
 ```
 
@@ -182,7 +182,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     st.download_button(
-        label="📥 Download Mask",
+        label=" Download Mask",
         data=mask_bytes,
         file_name="road_mask.png",
         mime="image/png"
@@ -190,7 +190,7 @@ with col1:
 
 with col2:
     st.download_button(
-        label="📥 Download Overlay",
+        label=" Download Overlay",
         data=overlay_bytes,
         file_name="road_overlay.png",
         mime="image/png"
@@ -201,7 +201,7 @@ with col2:
 
 ```python
 if show_stats and result.get('statistics'):
-    st.subheader("📊 Segmentation Statistics")
+    st.subheader(" Segmentation Statistics")
     
     metric_cols = st.columns(4)
     stats = result['statistics']
@@ -250,7 +250,7 @@ if show_stats and result.get('statistics'):
 
 2. **Check Backend Connection**
    - Automatic connection test
-   - Visual indicator (✅ Connected / ❌ Not Connected)
+   - Visual indicator ( Connected /  Not Connected)
 
 3. **Configure Settings** (Optional)
    - Adjust overlay transparency
@@ -263,7 +263,7 @@ if show_stats and result.get('statistics'):
    - Preview appears immediately
 
 5. **Run Segmentation**
-   - Click "🚀 Run Segmentation" button
+   - Click " Run Segmentation" button
    - Processing indicator appears
    - Wait for results (~15 seconds on CPU)
 
@@ -374,21 +374,21 @@ st.session_state.segmentation_result = result
 ```python
 # No backend connection
 if not backend_connected:
-    st.error("❌ Cannot connect to backend server")
+    st.error(" Cannot connect to backend server")
     st.info("Make sure backend is running on http://localhost:8000")
 
 # Upload validation
 if not uploaded_file:
-    st.info("👆 Please upload an image to get started")
+    st.info(" Please upload an image to get started")
 
 # API errors
 if not result['success']:
-    st.error(f"❌ {result.get('error', 'Unknown error')}")
+    st.error(f" {result.get('error', 'Unknown error')}")
     st.info("Please check backend logs for details")
 
 # Processing timeout
 except requests.Timeout:
-    st.error("⏱️ Request timeout. Image may be too large.")
+    st.error(" Request timeout. Image may be too large.")
 ```
 
 ---
@@ -475,28 +475,28 @@ font = "sans serif"
 ## User Experience Features
 
 ### 1. Real-time Feedback
-- ✅ Connection status indicator
-- ⏳ Processing spinner
-- 📊 Progress updates
-- ✅ Success/error notifications
+-  Connection status indicator
+-  Processing spinner
+-  Progress updates
+-  Success/error notifications
 
 ### 2. Intuitive Controls
-- 🎨 Visual sliders for transparency
-- ☑️ Toggle switches for options
-- 🖱️ Clear action buttons
-- 💾 Easy download options
+-  Visual sliders for transparency
+-  Toggle switches for options
+-  Clear action buttons
+-  Easy download options
 
 ### 3. Helpful Guidance
-- ℹ️ Tooltips on hover
-- 📝 Placeholder instructions
-- ⚠️ Clear error messages
-- 📖 About section with model info
+-  Tooltips on hover
+-  Placeholder instructions
+-  Clear error messages
+-  About section with model info
 
 ### 4. Responsive Design
-- 📱 Mobile-friendly layout
-- 🖥️ Desktop optimized
-- 🔄 Auto-refresh on changes
-- ⚡ Fast load times
+-  Mobile-friendly layout
+-  Desktop optimized
+-  Auto-refresh on changes
+-  Fast load times
 
 ---
 
